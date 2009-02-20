@@ -17,7 +17,13 @@ module UploadTestHelper
   end
 
   def assert_public_file_is_readable(file_path)
-    assert File.readable?(public_file_on_fs(file_path)), "#{file_path} is not readable or does not exist"
+    if file_path.match /^https?:\/\//
+      assert_nothing_raised do
+        Net::HTTP.get_response(URI.parse(file_path)).value
+      end
+    else
+      assert File.readable?(public_file_on_fs(file_path)), "#{file_path} is not readable or does not exist"
+    end
   end
 
   def assert_public_file_is_not_readable(file_path)
