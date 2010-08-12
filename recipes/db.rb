@@ -1,6 +1,6 @@
 namespace :db do
   desc "Create database.yml in shared/config" 
-  task :create_config do
+  task :create_config, :roles => :app do
     database_configuration = <<-EOF
 #{rails_env}:
   database: #{environment_database}
@@ -15,7 +15,7 @@ namespace :db do
   end
 
   desc "Link in the production database.yml" 
-  task :symlink_config do
+  task :symlink_config, :roles => :app do
     run "ln -nfs #{deploy_to}/#{shared_dir}/config/database.yml #{release_path}/config/database.yml" 
   end
 
