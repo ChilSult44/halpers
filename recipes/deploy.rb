@@ -5,7 +5,7 @@ namespace :deploy do
   end
 
   desc 'own the whole directory'
-  task :own do
+  task :own, :roles => :app do
     sudo "chown -R #{user} #{deploy_to}"
   end
 
